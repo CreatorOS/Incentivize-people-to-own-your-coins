@@ -31,6 +31,24 @@ function mint() public payable {
 
 ```
 
+Pretty straightforward, right?
+Whenever someone sends ETH to this contract, we’ll convert it into coins using a logic called calculateMint().
+
+Before minting, we need to make sure that the total number of coins in circulation should never be more than 10M that we had set earlier under totalSupply()
+
+We’ll also add another function where a user can give back the coins to the contract and take back eth.
+
+```
+function unmint(uint coinsBeingReturned) public payable {
+  uint weiToBeReturned = calculateUnmint(coinsBeingReturned);
+  assert(balances[msg.sender] >= coinsBeingReturned);
+  payable(msg.sender).transfer(weiToBeReturned);
+  balances[msg.sender] -= coinsBeingReturned;
+  totalMinted -= coinsBeingReturned;
+}
+```
+
+
 `calculateUnmint()` will return the number of wei that should be transferred given the number of coins being returned. 
 
 We of courseofcourse need to check for the fact that the user has as many coins as they’re trying to return.
@@ -38,12 +56,13 @@ We of courseofcourse need to check for the fact that the user has as many coins 
 Then we will reduce their balance and also reduce the number of coins that have been minted. 
 
 total Minted denotes the number of coins in circulation, i.e. in the wallets of users. If coins are beingbing unminted, they’re no longer in the accounts of users, and thus not in circulation.
+
 ## What do we want to incentivize?
 In this quest, we want to incentivize people to buy the coins early and hold them. Whenever people hold coins, the price in exchanges tends to go up. 
 
 So, the best behaviour is if people buy early, andbut sell later (or never). 
 
-We’ll devisedevice a crypto economic model such that this behaviour translates to a financial incentive for abiding to this behaviour. 
+We’ll devise a crypto economic model such that this behaviour translates to a financial incentive for abiding to this behaviour. 
 
 Here’s a simple model :
 
@@ -113,16 +132,42 @@ So, rearraginging the above formula,
 So, n = sqrt(Amount in wei \* 2 \+ (number of coins in circulation)^2) - (number coins in circulation before the transaction).
 
 Solidity doesn’t have an inbuilt function for sqrt, so you can use this function instead. This calculates the square root using the babylonian method. 
+```
+function sqrt(uint x) returns (uint y) {
+    uint z = (x + 1) / 2;
+    y = x;
+    while (z < y) {
+        y = z;
+        z = (x / z + z) / 2;
+    }
+}
 
+function square(uint x) returns(uint) {
+  return x*x;
+}
 ```
 
-function sqrt(uint x) returns (uint y) {
 
-    uint z = (x \+ 1) / 2;
+```
+function calculateMint(uint amountInWei) returns(uint) {
+  return sqrt(amountInWei * 2 + (totalSupply * totalSupply)) - totalSupply;
+}
+```
 
-    y = x;
+Now you need to calculate the amount of wei that will be returned if n coins are returned. 
+Can you try doing the math of what that output will be?
 
-    while (z Subquest : Get your friends to buy this!
+```
+  // n = number of coins returned 
+  Function unmint(uint n) returns (uint) {
+    return (square(totalSupply) - square(totalSupply - n)) / 2;
+  }
+```
+We recommend removing the initial grant to yourself. If you remember we had given ourselves a million tokens when the contract is deployed. Thereby making the price of the token prohibitively high for anyone to purchase.
+[https://remix.ethereum.org/#version=soljson-v0.8.4+commit.c7e474f2.js&optimize=false&runs=200&gist=7b49601268222b71e2d4114897d5df47&evmVersion=null](https://remix.ethereum.org/#version=soljson-v0.8.4+commit.c7e474f2.js&optimize=false&runs=200&gist=7b49601268222b71e2d4114897d5df47&evmVersion=null)
+
+    
+## Subquest : Get your friends to buy this!
 
 Deploy this to Ropsten and ask your friends to buy before it gets too expensive!
 
