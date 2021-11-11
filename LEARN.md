@@ -189,6 +189,6 @@ They can tap on the mint button to mint coins for themselves!
 ## What next?
 Now you know what is a bonding curve. Different bonding curves result in slightly different incentives. You can try playing around with various bonding curves. 
 
-Bitclout uses a similar logic, but uses a different bonding curve rather than our simple `y=x` curve. They use what is called the Bancour Cuve. 
+Bitclout uses a similar logic, but uses a different bonding curve rather than our simple `y=x` curve. They use what is called the Bancor Curve. 
 
-Can you modify the calculateMint() and calculateUnmint() functions to reflect a bancour curve instead of a straight-line?
+Can you modify the calculateMint() and calculateUnmint() functions to reflect a bancor curve instead of a straight-line?
