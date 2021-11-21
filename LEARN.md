@@ -125,7 +125,7 @@ This also assumes that you can buy fractional coins, hence the integral.
 
 So we now know the cost of buying n coins. However, what we need to know is how many coins should be minted given a certain amount of wei. 
 
-So, rearraging the above formula, 
+So, rearranging the above formula, 
 
 (Amount in wei \* 2 \+ (number of coins in circulation before transaction)^2) = (number of coins in circulation before transaction \+ n) ^ 2
 
