@@ -60,7 +60,7 @@ total Minted denotes the number of coins in circulation, i.e. in the wallets of 
 ## What do we want to incentivize?
 In this quest, we want to incentivize people to buy the coins early and hold them. Whenever people hold coins, the price in exchanges tends to go up. 
 
-So, the best behaviour is if people buy early, andbut sell later (or never). 
+So, the best behaviour is if people buy early, and/but sell later (or never). 
 
 We’ll devise a crypto economic model such that this behaviour translates to a financial incentive for abiding to this behaviour. 
 
@@ -125,7 +125,7 @@ This also assumes that you can buy fractional coins, hence the integral.
 
 So we now know the cost of buying n coins. However, what we need to know is how many coins should be minted given a certain amount of wei. 
 
-So, rearraginging the above formula, 
+So, rearranging the above formula, 
 
 (Amount in wei \* 2 \+ (number of coins in circulation before transaction)^2) = (number of coins in circulation before transaction \+ n) ^ 2
 
@@ -189,6 +189,6 @@ They can tap on the mint button to mint coins for themselves!
 ## What next?
 Now you know what is a bonding curve. Different bonding curves result in slightly different incentives. You can try playing around with various bonding curves. 
 
-Bitclout uses a similar logic, but uses a different bonding curve rather than our simple `y=x` curve. They use what is called the Bancour Cuve. 
+Bitclout uses a similar logic, but uses a different bonding curve rather than our simple `y=x` curve. They use what is called the Bancour Curve. 
 
 Can you modify the calculateMint() and calculateUnmint() functions to reflect a bancour curve instead of a straight-line?
